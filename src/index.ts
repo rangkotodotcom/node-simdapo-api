@@ -1,4 +1,4 @@
-import { authenticate, AuthConfig } from './core/authManager';
+import { AuthConfig } from './core/authManager';
 import * as schoolService from './services/schoolService';
 import * as semesterService from './services/semesterService';
 import * as serverService from './services/serverService';
@@ -8,8 +8,6 @@ import * as teacherService from './services/teacherService';
 import * as studentService from './services/studentService';
 
 export async function init(config: AuthConfig) {
-    await authenticate(config);
-
     return {
         getSchool: () => schoolService.getSchool(config),
         getSemester: () => semesterService.getSemester(config),

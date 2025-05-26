@@ -1,13 +1,13 @@
-import { init } from '@rangkotodotcom/simdapo';
+import { init } from './dist/index.js';
 
 (async () => {
-    process.env.NODE_ENV = 'staging';
+    process.env.SIMDAPO_MODE = 'development';
 
     const client = await init({
-        clientId: 'abc',
-        clientSecret: 'xyz',
+        clientId: '123',
+        clientSecret: 'abc',
     });
 
-    const res = await client.createUser({ name: 'Dewi', age: 31 });
+    const res = await client.getSemester();
     console.log(res);
 })();

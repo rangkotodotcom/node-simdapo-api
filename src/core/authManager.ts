@@ -17,6 +17,7 @@ interface TokenData {
 
 let retryCount = 0;
 const MAX_RETRY = 3;
+let currentTokenPromise: Promise<string> | null = null;
 
 function isTokenValid(tokenData: TokenData): boolean {
     return Date.now() < tokenData.expiresAt;
@@ -47,37 +48,54 @@ export async function getToken(authConfig: AuthConfig): Promise<string> {
         return cached.accessToken;
     }
 
-    return await authenticate(authConfig);
+    if (!currentTokenPromise) {
+        currentTokenPromise = attemptAuthenticate(authConfig).finally(() => {
+            currentTokenPromise = null;
+        });
+    }
+
+    return currentTokenPromise;
+}
+
+/**
+ * Fungsi autentikasi dengan retry
+ */
+async function attemptAuthenticate(authConfig: AuthConfig): Promise<string> {
+    while (retryCount < MAX_RETRY) {
+        try {
+            return await authenticate(authConfig);
+        } catch (err) {
+            retryCount++;
+            console.warn(`Authentication failed (attempt ${retryCount}):`, (err as Error).message);
+        }
+    }
+
+    throw new Error('Authentication failed after max retries');
 }
 
 /**
  * Request token baru & simpan ke file
  */
 export async function authenticate(authConfig: AuthConfig): Promise<string> {
-    try {
-        const url = getAuthUrl();
+    const url = getAuthUrl();
 
-        const response = await axios.post(url, {
-            client_id: authConfig.clientId,
-            client_secret: authConfig.clientSecret,
-            grant_type: 'client_credentials'
-        });
+    const response = await axios.post(url, {
+        client_id: authConfig.clientId,
+        client_secret: authConfig.clientSecret,
+        grant_type: 'client_credentials'
+    });
 
-        const accessToken = response.data.access_token;
-        const expiresIn = response.data.expires_in || 3600;
+    const accessToken = response.data.access_token;
+    const expiresIn = response.data.expires_in || 3600;
 
-        if (!accessToken) {
-            throw new Error('Authentication failed: No token returned');
-        }
-
-        saveTokenToFile(accessToken, expiresIn);
-        retryCount = 0;
-
-        return accessToken;
-    } catch (error) {
-        retryCount++;
-        throw new Error('Authentication failed');
+    if (!accessToken) {
+        throw new Error('No token returned from auth server');
     }
+
+    saveTokenToFile(accessToken, expiresIn);
+    retryCount = 0;
+
+    return accessToken;
 }
 
 export function shouldRetry401(): boolean {
