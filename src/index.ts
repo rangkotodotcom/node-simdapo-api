@@ -1,5 +1,6 @@
 import { authenticate, AuthConfig } from './core/authManager';
 import * as schoolService from './services/schoolService';
+import * as semesterService from './services/semesterService';
 import * as serverService from './services/serverService';
 import * as componentService from './services/componentService';
 import * as userService from './services/userService';
@@ -11,6 +12,7 @@ export async function init(config: AuthConfig) {
 
     return {
         getSchool: () => schoolService.getSchool(config),
+        getSemester: () => semesterService.getSemester(config),
         getServerTime: () => serverService.getTime(config),
         getServerStatus: () => serverService.getStatus(config),
         getComponentReligion: (id?: string) => componentService.getReligion(config, id),
