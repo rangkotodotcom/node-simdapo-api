@@ -1,0 +1,7 @@
+src/
+node_modules/
+*.log
+*.ts
+tsconfig.json
+README.md
+example.js

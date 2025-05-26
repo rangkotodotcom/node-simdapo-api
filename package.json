@@ -1,0 +1,31 @@
+{
+  "name": "@rangkotodotcom/simdapo",
+  "version": "1.0.0",
+  "description": "Library Client for integration with simdapo",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "keywords": [
+    "SIMDAPO",
+    "NODE",
+    "CLIENT"
+  ],
+  "author": "rangkotodotcom",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "joi": "^17.9.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "@types/joi": "^17.2.3",
+    "@types/axios": "^0.14.0",
+    "typescript": "^5.1.6"
+  }
+}
