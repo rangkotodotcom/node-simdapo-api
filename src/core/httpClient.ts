@@ -39,17 +39,46 @@ export async function request<T = any>({
                 ...config
             };
 
-            const response: AxiosResponse<T> = await axios(axiosConfig);
-            return response.data;
+            const response: AxiosResponse<any> = await axios(axiosConfig);
+            const apiResponse = response.data;
+
+            // Validasi struktur dan success flag
+            if (!apiResponse.status) {
+                throw {
+                    req_id: apiResponse.req_id || null,
+                    srv_id: apiResponse.srv_id || null,
+                    status: false,
+                    code: apiResponse.code || response.status,
+                    content: apiResponse.content || null,
+                    errors: apiResponse.errors || null,
+                    message: apiResponse.message || 'Unknown API error'
+                };
+            }
+
+            return apiResponse.content as T;
         } catch (error: any) {
+            logError(error);
+
             if (error.response?.status === 401 && shouldRetry401()) {
                 console.warn('[httpClient] 401 Unauthorized. Retrying authentication...');
                 token = await authenticate(authConfig);
                 return sendRequest();
             }
 
-            logError(error);
-            throw error;
+            const errorResponse = error.response?.data || {};
+
+            throw {
+                req_id: errorResponse.req_id || null,
+                srv_id: errorResponse.srv_id || null,
+                status: false,
+                code: errorResponse.code || error.response?.status || 500,
+                content: null,
+                errors: errorResponse.errors || null,
+                message:
+                    errorResponse.message ||
+                    error.message ||
+                    'No response received or unknown error.'
+            };
         }
     };
 

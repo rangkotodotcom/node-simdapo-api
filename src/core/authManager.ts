@@ -70,7 +70,15 @@ async function attemptAuthenticate(authConfig: AuthConfig): Promise<string> {
         }
     }
 
-    throw new Error('Authentication failed after max retries');
+    throw {
+        req_id: null,
+        srv_id: null,
+        status: false,
+        code: 500,
+        content: null,
+        errors: null,
+        message: 'Authentication failed after max retries'
+    };
 }
 
 /**
@@ -89,7 +97,15 @@ export async function authenticate(authConfig: AuthConfig): Promise<string> {
     const expiresIn = response.data.expires_in || 3600;
 
     if (!accessToken) {
-        throw new Error('No token returned from auth server');
+        throw {
+            req_id: null,
+            srv_id: null,
+            status: false,
+            code: 500,
+            content: null,
+            errors: null,
+            message: 'No token returned from auth server'
+        };
     }
 
     saveTokenToFile(accessToken, expiresIn);
