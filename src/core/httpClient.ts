@@ -55,7 +55,7 @@ export async function request<T = any>({
                 };
             }
 
-            return apiResponse.content as T;
+            return apiResponse as T;
         } catch (error: any) {
             logError(error);
 
