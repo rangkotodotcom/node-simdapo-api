@@ -8,7 +8,7 @@ export async function getUser(
     authConfig: AuthConfig,
     id?: string
 ): Promise<any> {
-    const url = id ? `/student/${id}` : '/student';
+    const url = id ? `/user/${id}` : '/user';
 
     return await request({
         url,
