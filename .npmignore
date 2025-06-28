@@ -1,7 +1,14 @@
+# Jangan kirim source dan konfigurasi dev
 src/
-node_modules/
-*.log
+test/
 *.ts
 tsconfig.json
-README.md
 example.js
+*.log
+
+# Jangan kirim file sensitif
+.env
+.token.json
+
+# Jangan kirim folder node_modules (walau npm sudah otomatis skip ini)
+node_modules/

@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 dist/
+*.tgz
 
 # Token file or other secrets
 .token.json
