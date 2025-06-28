@@ -8,7 +8,7 @@ example.js
 
 # Jangan kirim file sensitif
 .env
-.token.json
+*.token.json
 
 # Jangan kirim folder node_modules (walau npm sudah otomatis skip ini)
 node_modules/

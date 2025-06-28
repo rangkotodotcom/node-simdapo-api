@@ -6,7 +6,7 @@ dist/
 *.tgz
 
 # Token file or other secrets
-.token.json
+*.token.json
 
 # Logs
 npm-debug.log*

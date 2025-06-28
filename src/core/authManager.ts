@@ -8,7 +8,7 @@ export interface AuthConfig {
     clientSecret: string;
 }
 
-const TOKEN_FILE_PATH = path.join(__dirname, '../../.token.json');
+const TOKEN_FILE_PATH = path.join(__dirname, '../../simdapo.token.json');
 
 interface TokenData {
     accessToken: string;
