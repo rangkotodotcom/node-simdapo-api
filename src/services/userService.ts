@@ -31,7 +31,7 @@ export async function createUser(
     authConfig: AuthConfig
 ): Promise<any | ValidationResult<null>> {
     const validation = validate<UserPayload>(userSchema, data);
-    if (!validation.status) return validation;
+    if (!validation.status) throw validation;
 
     return await request({
         url: '/user',

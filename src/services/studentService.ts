@@ -16,7 +16,7 @@ export async function getStudent(
     authConfig: AuthConfig
 ): Promise<any | ValidationResult<null>> {
     const validation = validate<GetStudentPayload>(getStudentSchema, params);
-    if (!validation.status) return validation;
+    if (!validation.status) throw validation;
 
     return await request({
         url: '/student',

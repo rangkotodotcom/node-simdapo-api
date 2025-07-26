@@ -42,6 +42,10 @@ export async function request<T = any>({
             const response: AxiosResponse<any> = await axios(axiosConfig);
             const apiResponse = response.data;
 
+            if (response.status == 204) {
+                return apiResponse as T;
+            }
+
             // Validasi struktur dan success flag
             if (!apiResponse.status) {
                 throw {
