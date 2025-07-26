@@ -9,6 +9,11 @@ export interface AuthConfig {
 }
 
 const TOKEN_FILE_PATH = path.join(process.cwd(), 'json', 'simdapo.token.json');
+const TOKEN_DIR = path.dirname(TOKEN_FILE_PATH);
+
+if (!fs.existsSync(TOKEN_DIR)) {
+    fs.mkdirSync(TOKEN_DIR, { recursive: true });
+}
 
 interface TokenData {
     accessToken: string;

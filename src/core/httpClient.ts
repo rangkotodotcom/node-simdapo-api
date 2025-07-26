@@ -15,8 +15,8 @@ export interface HttpRequestParams {
 export async function request<T = any>({
     url,
     method = 'GET',
-    params = null,
-    data = null,
+    params = undefined,
+    data = undefined,
     config = {},
     authConfig
 }: HttpRequestParams): Promise<T> {
