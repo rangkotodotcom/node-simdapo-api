@@ -8,7 +8,7 @@ export interface AuthConfig {
     clientSecret: string;
 }
 
-const TOKEN_FILE_PATH = path.join(process.cwd(), 'json', 'pushnotif.token.json');
+const TOKEN_FILE_PATH = path.join(process.cwd(), 'json', 'simdapo.token.json');
 
 interface TokenData {
     accessToken: string;
